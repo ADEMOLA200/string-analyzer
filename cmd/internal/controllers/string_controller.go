@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/ADEMOLA200/string-analyzer/cmd/internal/models"
 	"github.com/ADEMOLA200/string-analyzer/cmd/internal/services"
@@ -21,6 +22,10 @@ func (c *StringController) CreateAnalyzeString(ctx *gin.Context) {
 	var req models.AnalysisRequest
 
 	if err := ctx.ShouldBindJSON(&req); err != nil {
+		if strings.Contains(err.Error(), "cannot unmarshal") {
+			ctx.JSON(http.StatusUnprocessableEntity, gin.H{"error": "Invalid data type for 'value' (must be string)"})
+			return
+		}
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
 		return
 	}

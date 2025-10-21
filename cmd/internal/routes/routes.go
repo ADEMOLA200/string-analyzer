@@ -11,40 +11,19 @@ import (
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
 
-	// Initialize dependencies
 	repo := repository.NewInMemoryRepository()
 	service := services.NewAnalyzerService(repo)
 	controller := controllers.NewStringController(service)
 
-	api := router.Group("/api/v1")
-	{
-		strings := api.Group("/strings")
-		{
-			strings.POST("", controller.CreateAnalyzeString)
-			strings.GET("", controller.GetAllStrings)
-			strings.GET("/filter-by-natural-language", controller.FilterByNaturalLanguage)
-			strings.GET("/:string_value", controller.GetString)
-			strings.DELETE("/:string_value", controller.DeleteString)
-		}
-	}
+	router.POST("/strings", controller.CreateAnalyzeString)
+	router.GET("/strings", controller.GetAllStrings)
+	router.GET("/strings/filter-by-natural-language", controller.FilterByNaturalLanguage)
+	router.GET("/strings/:string_value", controller.GetString)
+	router.DELETE("/strings/:string_value", controller.DeleteString)
 
 	// Health check
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "ok"})
-	})
-
-	// Debug endpoint to see all strings in repository
-	router.GET("/debug/strings", func(c *gin.Context) {
-		allStrings, err := repo.FindAll()
-		if err != nil {
-			c.JSON(500, gin.H{"error": err.Error()})
-			return
-		}
-
-		c.JSON(200, gin.H{
-			"total_strings": len(allStrings),
-			"strings":       allStrings,
-		})
 	})
 
 	return router
