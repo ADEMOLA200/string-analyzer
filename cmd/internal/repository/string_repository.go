@@ -34,21 +34,6 @@ func NewInMemoryRepository() StringRepository {
 	}
 }
 
-// func init() {
-// 	repo := NewInMemoryRepository().(*inMemoryRepository)
-
-// 	sampleStrings := []string{"hills", "java", "oops", "golang"}
-// 	for _, str := range sampleStrings {
-// 		analysis := &models.StringAnalysis{
-// 			Value: str,
-// 			Properties: models.StringProperties{
-// 				Length: len(str),
-// 			},
-// 		}
-// 		repo.Create(analysis)
-// 	}
-// }
-
 func (r *inMemoryRepository) Create(analysis *models.StringAnalysis) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()

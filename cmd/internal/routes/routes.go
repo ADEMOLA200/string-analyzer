@@ -16,7 +16,6 @@ func SetupRouter() *gin.Engine {
 	service := services.NewAnalyzerService(repo)
 	controller := controllers.NewStringController(service)
 
-	// Routes
 	api := router.Group("/api/v1")
 	{
 		strings := api.Group("/strings")

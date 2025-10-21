@@ -179,7 +179,6 @@ func (s *analyzerService) parseNaturalLanguage(query string) map[string]interfac
 }
 
 func extractNumber(s string) int {
-	// Simple number extraction - you might want to enhance this
 	words := strings.Fields(s)
 	for i, word := range words {
 		if word == "than" && i+1 < len(words) {
