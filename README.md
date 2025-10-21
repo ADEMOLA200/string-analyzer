@@ -66,7 +66,7 @@ DELETE /api/v1/strings/{string_value}
 Clone the repository:
 
 ```bash
-git clone <https://github.com/ADEMOLA200/string-analyzer.git>
+git clone https://github.com/ADEMOLA200/string-analyzer.git
 cd string-analyzer
 ```
 
